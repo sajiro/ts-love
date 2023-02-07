@@ -1,3 +1,3 @@
 # ts-love
 
-playground
+playground sample
