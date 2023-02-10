@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { IState as Props } from "../App";
+import { IState as Props, StateX } from "../App";
 
 interface IProps {
   setPeople: React.Dispatch<React.SetStateAction<Props["people"]>>;
-  people: Props["people"];
+  //
+  //people: Props["people"];
+  people: StateX[];
 }
 
 const AddToList: React.FC<IProps> = ({ setPeople, people }) => {

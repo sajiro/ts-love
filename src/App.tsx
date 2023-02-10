@@ -8,7 +8,33 @@ import { CustomButton } from "./com/Button";
 import { List } from "./com/List";
 import ListAll from "./listComponent/ListAll";
 import AddToList from "./listComponent/AddToList";
+import { GenericSelect } from "./com/GenericSelect ";
+import { PokemonComponent } from "./pokemon/Pokemon";
 
+export type Book = {
+  id: string;
+  title: string;
+  author: string;
+};
+export const books: Book[] = [
+  {
+    id: "1",
+    title: "Good omens",
+    author: "Terry Pratchett & Neil Gaiman",
+  },
+  {
+    id: "2",
+    title: "The Truth",
+    author: "Terry Pratchett",
+  },
+];
+//    ^?
+export type DataTypes = Book | string;
+export const isBook = (value: DataTypes): value is Book => {
+  return typeof value !== "string" && "id" in value && "author" in value;
+};
+
+////
 export interface IState {
   people: {
     name: string;
@@ -18,10 +44,17 @@ export interface IState {
   }[];
 }
 
-//    ^?
+export type StateX = {
+  name: string;
+  age: number;
+  img: string;
+  note?: string;
+};
 
 function App() {
-  const [people, setPeople] = useState<IState["people"]>([
+  //using interface is better so you can see what is the definition of the "people" , hover people to see
+  //const [people, setPeople] = useState<IState["people"]>([
+  const [people, setPeople] = useState<StateX[]>([
     {
       name: "LeBron James",
       age: 35,
@@ -34,9 +67,22 @@ function App() {
       img: "https://cdn.searchenginejournal.com/wp-content/uploads/2022/06/image-search-1600-x-840-px-62c6dc4ff1eee-sej.png",
     },
   ]);
-  console.log(people);
+
+  const formatLabel = (value: DataTypes) => {
+    if (isBook(value)) return `${value.title}: ${value.author}`;
+    return value;
+  };
+
   return (
     <div className="App">
+      <PokemonComponent />
+      <GenericSelect<Book>
+        onChange={(value) => console.info(value)}
+        values={books}
+        formatLabel={formatLabel}
+      />
+      <hr></hr>
+
       <ListAll people={people} />
       <AddToList setPeople={setPeople} people={people} />
 
